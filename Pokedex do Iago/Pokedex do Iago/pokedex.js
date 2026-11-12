@@ -4,7 +4,6 @@ let estadoPokedex = {
 
 let numPokemon = '';
 
-// Elementos do teclado
 const key1 = document.querySelector('#key-1');
 const key2 = document.querySelector('#key-2');
 const key3 = document.querySelector('#key-3');
@@ -16,7 +15,6 @@ const key8 = document.querySelector('#key-8');
 const key9 = document.querySelector('#key-9');
 const key10 = document.querySelector('#key-10');
 
-// Botões da Pokédex
 const btnWhiteLeft = document.querySelector('#btn-white-left');
 const btnWhiteRight = document.querySelector('#btn-white-right');
 const btnLeft = document.querySelector('#btn-left');
@@ -25,12 +23,10 @@ const btnShiny = document.querySelector('#led-yellow');
 const btnUp = document.querySelector('#btn-up');
 const btnDown = document.querySelector('#btn-down');
 
-// Telas de exibição
 const numberDisplay = document.querySelector('#number-display');
 const infoScreen = document.querySelector('#info-screen');
 const mainScreen = document.querySelector('#main-screen');
 
-// Eventos das teclas
 const teclas = [
     [key1, '1'],
     [key2, '2'],
@@ -51,13 +47,11 @@ teclas.forEach(([botao, numero]) => {
 btnWhiteLeft.addEventListener('click', buscarPokemon);
 btnWhiteRight.addEventListener('click', apagar);
 
-// Navegação entre os Pokémon
 btnRight.addEventListener('click', () => mudarPokemon(1));
 btnLeft.addEventListener('click', () => mudarPokemon(-1));
 btnUp.addEventListener('click', () => mudarPokemon(10));
 btnDown.addEventListener('click', () => mudarPokemon(-10));
 
-// Altera o número do Pokémon conforme o botão pressionado
 function mudarPokemon(valor) {
     let novoNumero = Number(numPokemon) + valor;
 
@@ -68,7 +62,6 @@ function mudarPokemon(valor) {
     }
 }
 
-// Recebe os números digitados
 function leituraTeclado(tecla) {
     if (!estadoPokedex.digitando) {
         infoScreen.textContent = '';
@@ -80,7 +73,6 @@ function leituraTeclado(tecla) {
     infoScreen.textContent = numPokemon;
 }
 
-// Remove o último número digitado
 function apagar() {
     if (!estadoPokedex.digitando) return;
 
@@ -106,13 +98,11 @@ function mostrarNumero(id) {
     numberDisplay.textContent = `#${numPokemon}`;
 }
 
-// Formata o número para aparecer com três dígitos
 function atualizarNumero(id) {
     let numeroFormatado = String(id).padStart(3, '0');
     numberDisplay.textContent = '#' + numeroFormatado;
 }
 
-// Consulta as informações na PokéAPI
 async function consultarApi(msg) {
     try {
         const respostaPokemon = await fetch(
@@ -136,14 +126,12 @@ async function consultarApi(msg) {
     }
 }
 
-// Inicia a pesquisa do Pokémon
 function buscarPokemon() {
     if (estadoPokedex.digitando && numPokemon !== '') {
         consultarApi(numPokemon);
     }
 }
 
-// Carrega a imagem correspondente
 async function carregarFoto(img) {
     try {
         if (img <= 0 || img > 1025) {
@@ -171,7 +159,6 @@ async function carregarFoto(img) {
     }
 }
 
-// Identifica a região de origem pela geração
 function descobrirRegiao(especie) {
     const geracao = especie.generation.name;
 
@@ -190,7 +177,6 @@ function descobrirRegiao(especie) {
     return regioes[geracao] || 'Desconhecida';
 }
 
-// Exibe os dados encontrados
 function exibirDados(data, especie) {
     infoScreen.textContent = '';
 
@@ -225,7 +211,6 @@ function exibirDados(data, especie) {
     infoScreen.append(nome, tipo, pesoAltura, regiao);
 }
 
-// Coloca a primeira letra em maiúscula
 function capitalizar(str) {
     return str.charAt(0).toUpperCase() + str.slice(1);
 }
